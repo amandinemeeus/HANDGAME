@@ -89,17 +89,15 @@ public static function incrementMistakes(Game $game){
 
 public static function checkLetter(Game $game, $letter){
     try {
-    
+        $session = $game -> session;
+        $progress = $game -> progress;
         $connection = DAO::getConnection();
-        for ($i = 0; $i<strlen ($game -> word); $i++){
-            if ($game -> word[i] == $letter){
-                $game -> $progress[$i]=$letter;
+        for ($i = 0; $i < strlen ($game -> word); $i++){
+            if ($game -> word[$i] == $letter){
+                $progress[$i]=$letter;
             }
         };
         $statement = $connection -> prepare ("UPDATE hangman SET progress = :progress WHERE session = :session"); 
-        
-        $session = $game -> session;
-        $progress = $game -> progress;
         $statement -> bindParam("session", $session);
         $statement -> bindParam("progress", $progress);
         $statement -> execute(); 
